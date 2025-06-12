@@ -96,7 +96,7 @@ footer.innerHTML = `
       <div class="footer-section">
         <h2>BearBox 2023</h2>
         <p>Forjamos atletas. Transformamos vidas. Únete a una comunidad que vive el CrossFit con pasión y disciplina.</p>
-        <img src="images/bear_logo.png" alt="BearBox Logo" class="footer-logo">
+        <img src="logo.png" alt="BearBox Logo" class="footer-logo">
       </div>
 
       <div class="footer-section">
