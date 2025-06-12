@@ -19,12 +19,11 @@
     }
 
     .ubicacion-section {
-      padding: 80px 20px;
-      background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.95)),
-        url('baner.jpg') center/cover no-repeat;
+      padding: 80px 20px 40px;
+      margin-bottom: 50px; /* separación entre secciones */
+      background-color: #121212;
       text-align: center;
       border-top: 3px solid #f5a623;
-      border-bottom: 3px solid #f5a623;
     }
 
     .ubicacion-section h2 {
@@ -38,7 +37,15 @@
       font-size: 1.2em;
       color: #ccc;
       max-width: 700px;
-      margin: 0 auto 40px;
+      margin: 0 auto;
+    }
+
+    .map-section {
+      background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.95)),
+        url('baner.jpg') center/cover no-repeat;
+      padding: 60px 20px;
+      text-align: center;
+      border-bottom: 3px solid #f5a623;
     }
 
     .map-container {
@@ -73,7 +80,6 @@
       margin: 10px 0;
     }
 
-    /* Footer margin superior para separación visual */
     #footer {
       margin-top: 80px;
     }
@@ -82,11 +88,14 @@
 
 <body>
 
-  <!-- Sección principal -->
+  <!-- Sección de texto -->
   <section class="ubicacion-section">
     <h2>¿Dónde estamos?</h2>
     <p>Nos encontramos en una ubicación estratégica para tu entrenamiento de alto rendimiento. Ven a conocernos.</p>
+  </section>
 
+  <!-- Sección del mapa -->
+  <section class="map-section">
     <div class="map-container">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3348.328424306984!2d-80.953542!3d-2.2114259999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMsKwMTInNDEuMSJTIDgwwrA1NycxMi44Ilc!5e1!3m2!1ses!2sec!4v1749699016192!5m2!1ses!2sec"
@@ -107,7 +116,7 @@
   <!-- Navbar dinámico -->
   <script src="navbar.js"></script>
 
-  <!-- Footer dinámico (fuera del main, con espacio superior) -->
+  <!-- Footer dinámico -->
   <div id="footer"></div>
   <script src="footer.js"></script>
 
