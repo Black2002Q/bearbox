@@ -21,7 +21,7 @@
 
     .contact-section {
       padding: 80px 20px;
-      background: linear-gradient(90deg, #0d0d0d, #1a1a1a, #333);
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('cc.jpg') center/cover no-repeat;
       text-align: center;
       border-top: 3px solid #f5a623;
     }
@@ -30,7 +30,7 @@
       font-size: 3em;
       margin-bottom: 10px;
       font-weight: bold;
-      color: #fff; /* fuerza visibilidad */
+      color: #fff;
     }
 
     .contact-section p {
@@ -118,8 +118,6 @@
 
       <button type="submit">Enviar por WhatsApp</button>
     </form>
-
-  
   </section>
 
   <!-- WhatsApp redirect script -->
@@ -130,7 +128,7 @@
       const name = document.getElementById('name').value.trim();
       const message = document.getElementById('message').value.trim();
 
-      const phone = '521XXXXXXXXXX'; // Reemplaza con el número de WhatsApp de BearBox (sin + ni espacios)
+      const phone = '521XXXXXXXXXX'; // Reemplaza con el número de WhatsApp
       const text = `Hola, soy ${name}. ${message}`;
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 
