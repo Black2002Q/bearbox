@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class="container-fluid">
 
       <a class="navbar-brand" href="index.html">
-        <img src="Bear.jpg" width="120" height="80" alt="BearBox Logo">
+        <img src="in.jpg" width="120" height="80" alt="BearBox Logo">
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
