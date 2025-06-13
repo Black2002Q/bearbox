@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +20,8 @@
 
     .planes-section {
       padding: 80px 20px;
-      background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.95)), url('baner.jpg') center/cover no-repeat;
+      background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.95)),
+        url('baner.jpg') center/cover no-repeat;
       text-align: center;
       border-top: 3px solid #f5a623;
       border-bottom: 3px solid #f5a623;
@@ -168,57 +170,76 @@
       color: #f5a623;
     }
 
-    #mensajeError {
-      margin-top: 10px;
-      color: #f5a623;
-      font-weight: bold;
-    }
-
-    /* Toast personalizado */
+    /* Toast */
     .toast {
       position: fixed;
       bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
+      right: 30px;
       background-color: #f5a623;
       color: #000;
-      padding: 16px 24px;
-      border-radius: 12px;
+      padding: 15px 20px;
+      border-radius: 8px;
       font-weight: bold;
       z-index: 10000;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       display: none;
-      animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    }
-
-    @keyframes fadein {
-      from { opacity: 0; bottom: 20px; }
-      to { opacity: 1; bottom: 30px; }
-    }
-
-    @keyframes fadeout {
-      from { opacity: 1; bottom: 30px; }
-      to { opacity: 0; bottom: 20px; }
     }
   </style>
 </head>
+
 <body>
 
+  <!-- Navbar dinámico -->
   <script src="navbar.js"></script>
 
+  <!-- Sección de Planes -->
   <section class="planes-section">
     <h2>Planes de Entrenamiento</h2>
     <p>Elige el plan que mejor se adapte a tu estilo de vida y tus objetivos de entrenamiento.</p>
+
     <div class="planes-grid">
-      <!-- Cards aquí (no los repito porque ya los tienes bien hechos) -->
-      <!-- ... (tu mismo contenido de plan-card) -->
+      <div class="plan-card">
+        <div class="plan-title">Diario</div>
+        <div class="plan-price">$5</div>
+        <ul class="plan-features">
+          <li><i class="bi bi-check-circle"></i> Acceso ilimitado</li>
+          <li><i class="bi bi-check-circle"></i> Clases grupales</li>
+          <li><i class="bi bi-check-circle"></i> Rutinas personalizadas</li>
+        </ul>
+        <button class="plan-btn" onclick="mostrarModal('Diario', 5)">Inscribirme</button>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-title">Mensual</div>
+        <div class="plan-price">$40</div>
+        <ul class="plan-features">
+          <li><i class="bi bi-check-circle"></i> Ahorra $10</li>
+          <li><i class="bi bi-check-circle"></i> Acceso ilimitado</li>
+          <li><i class="bi bi-check-circle"></i> Medición de progreso</li>
+        </ul>
+        <button class="plan-btn" onclick="mostrarModal('Mensual', 40)">Inscribirme</button>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-title">Trimestral</div>
+        <div class="plan-price">$110</div>
+        <ul class="plan-features">
+          <li><i class="bi bi-check-circle"></i> 2 meses gratis</li>
+          <li><i class="bi bi-check-circle"></i> Regalo de bienvenida</li>
+          <li><i class="bi bi-check-circle"></i> Acceso VIP</li>
+        </ul>
+        <button class="plan-btn" onclick="mostrarModal('Trimestral', 110)">Inscribirme</button>
+      </div>
     </div>
   </section>
 
+  <!-- Modal flotante -->
   <div id="modal" class="modal-overlay">
     <div class="modal-content">
       <h3>Datos para el Pago</h3>
 
       <div style="display: flex; flex-direction: column; gap: 20px;">
+        <!-- Banco Pichincha -->
         <div style="background-color: #2a2a2a; padding: 15px; border-radius: 12px; border: 1px solid #f5a623;">
           <img src="pichincha.jpg" alt="Banco Pichincha" style="width: 120px; margin-bottom: 10px;">
           <p><strong>Banco:</strong> Pichincha</p>
@@ -226,6 +247,7 @@
           <p><strong>A nombre de:</strong> BearBox 23 X-Fit</p>
         </div>
 
+        <!-- Banco Guayaquil -->
         <div style="background-color: #2a2a2a; padding: 15px; border-radius: 12px; border: 1px solid #f5a623;">
           <img src="guayaquil.png" alt="Banco Guayaquil" style="width: 120px; margin-bottom: 10px;">
           <p><strong>Banco:</strong> Guayaquil</p>
@@ -236,12 +258,10 @@
 
       <label for="bancoSelect">Selecciona el banco al que transferiste:</label>
       <select id="bancoSelect">
-        <option value="">Elige tu banco</option>
+        <option value="">Elige el banco...</option>
         <option value="Pichincha">Banco Pichincha</option>
         <option value="Guayaquil">Banco Guayaquil</option>
       </select>
-
-      <div id="mensajeError"></div>
 
       <small>*No olvides adjuntar el comprobante en el chat de WhatsApp.</small>
 
@@ -250,36 +270,37 @@
     </div>
   </div>
 
-  <div id="toast" class="toast">Por favor selecciona un banco para continuar con la confirmación.</div>
+  <!-- Toast -->
+  <div id="toast" class="toast">Por favor, selecciona un banco antes de continuar.</div>
 
+  <!-- Footer dinámico -->
   <div id="footer"></div>
   <script src="footer.js"></script>
+
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- Script personalizado -->
   <script>
-    function mostrarToast(mensaje) {
-      const toast = document.getElementById('toast');
-      toast.textContent = mensaje;
-      toast.style.display = 'block';
-      setTimeout(() => {
-        toast.style.display = 'none';
-      }, 3000);
-    }
+    let bancoSelect;
+    let whatsappBtn;
+    let selectedPlan = '';
+    let selectedPrecio = '';
 
     function mostrarModal(plan, precio) {
-      const modal = document.getElementById('modal');
-      const bancoSelect = document.getElementById('bancoSelect');
-      const whatsappBtn = document.getElementById('whatsappBtn');
-      const mensajeError = document.getElementById('mensajeError');
+      document.getElementById('modal').style.display = 'flex';
+      bancoSelect = document.getElementById('bancoSelect');
+      whatsappBtn = document.getElementById('whatsappBtn');
 
-      modal.style.display = 'flex';
+      selectedPlan = plan;
+      selectedPrecio = precio;
+
       bancoSelect.selectedIndex = 0;
-      mensajeError.textContent = '';
 
       whatsappBtn.onclick = function () {
         const banco = bancoSelect.value;
         if (!banco) {
-          mostrarToast("Por favor selecciona un banco para continuar con la confirmación.");
+          mostrarToast();
           return;
         }
         const mensaje = `Hola, estoy interesado en inscribirme al plan *${plan}* de $${precio}. Realicé la transferencia al banco *${banco}*. Adjunto el comprobante de pago.`;
@@ -292,6 +313,16 @@
     function cerrarModal() {
       document.getElementById('modal').style.display = 'none';
     }
+
+    function mostrarToast() {
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
   </script>
+
 </body>
+
 </html>
