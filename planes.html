@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planes - BearBox 23 X-Fit</title>
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <script src="head.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #fff;
+    }
+
+    .planes-section {
+      padding: 80px 20px;
+      background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.95)),
+        url('baner.jpg') center/cover no-repeat;
+      text-align: center;
+      border-top: 3px solid #f5a623;
+      border-bottom: 3px solid #f5a623;
+    }
+
+    .planes-section h2 {
+      font-size: 2.8em;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: #f5a623;
+    }
+
+    .planes-section p {
+      font-size: 1.2em;
+      color: #ccc;
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+
+    .planes-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .plan-card {
+      background-color: #1a1a1a;
+      border: 2px solid #f5a623;
+      border-radius: 16px;
+      padding: 30px 20px;
+      width: 300px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(245, 166, 35, 0.3);
+    }
+
+    .plan-title {
+      font-size: 1.6em;
+      margin-bottom: 10px;
+      color: #f5a623;
+      font-weight: bold;
+    }
+
+    .plan-price {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .plan-features {
+      list-style: none;
+      padding: 0;
+      color: #ccc;
+    }
+
+    .plan-features li {
+      margin-bottom: 10px;
+    }
+
+    .plan-btn {
+      margin-top: 20px;
+      background-color: #f5a623;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .plan-btn:hover {
+      background-color: #ffa500;
+    }
+
+    #footer {
+      margin-top: 80px;
+    }
+
+    /* Modal flotante */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal-content {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 16px;
+      text-align: center;
+      max-width: 400px;
+      border: 2px solid #f5a623;
+      color: #fff;
+    }
+
+    .modal-content h3 {
+      color: #f5a623;
+      margin-bottom: 20px;
+    }
+
+    .modal-content p {
+      margin-bottom: 10px;
+      color: #ccc;
+    }
+
+    .modal-content button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #25D366;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .modal-content .close-btn {
+      margin-top: 10px;
+      background-color: #999;
+      color: #000;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar dinámico -->
+  <script src="navbar.js"></script>
+
+  <!-- Sección de Planes -->
+  <section class="planes-section">
+    <h2>Planes de Entrenamiento</h2>
+    <p>Elige el plan que mejor se adapte a tu estilo de vida y tus objetivos de entrenamiento.</p>
+
+    <div class="planes-grid">
+      <div class="plan-card">
+        <div class="plan-title">Diario</div>
+        <div class="plan-price">$5</div>
+        <ul class="plan-features">
+          <li><i class="bi bi-check-circle"></i> Acceso ilimitado</li>
+          <li><i class="bi bi-check-circle"></i> Clases grupales</li>
+          <li><i class="bi bi-check-circle"></i> Rutinas personalizadas</li>
+        </ul>
+        <button class="plan-btn" onclick="mostrarModal('Diario', 5)">Inscribirme</button>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-title">Mensual</div>
+        <div class="plan-price">$40</div>
+        <ul class="plan-features">
+          <li><i class="bi bi-check-circle"></i> Ahorra $10</li>
+          <li><i class="bi bi-check-circle"></i> Acceso ilimitado</li>
+          <li><i class="bi bi-check-circle"></i> Medición de progreso</li>
+        </ul>
+        <button class="plan-btn" onclick="mostrarModal('Mensual', 40)">Inscribirme</button>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-title">Trimestral</div>
+        <div class="plan-price">$110</div>
+        <ul class="plan-features">
+          <li><i class="bi bi-check-circle"></i> 2 meses gratis</li>
+          <li><i class="bi bi-check-circle"></i> Regalo de bienvenida</li>
+          <li><i class="bi bi-check-circle"></i> Acceso VIP</li>
+        </ul>
+        <button class="plan-btn" onclick="mostrarModal('Trimestral', 110)">Inscribirme</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal flotante -->
+<!-- Modal flotante -->
+<div id="modal" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Datos para el Pago</h3>
+
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <!-- Banco Pichincha -->
+      <div style="background-color: #2a2a2a; padding: 15px; border-radius: 12px; border: 1px solid #f5a623;">
+        <img src="pichincha.jpg" alt="Banco Pichincha" style="width: 120px; margin-bottom: 10px;">
+        <p><strong>Banco:</strong> Pichincha</p>
+        <p><strong>Cuenta:</strong> 1234567890</p>
+        <p><strong>A nombre de:</strong> BearBox 23 X-Fit</p>
+      </div>
+
+      <!-- Banco Guayaquil -->
+      <div style="background-color: #2a2a2a; padding: 15px; border-radius: 12px; border: 1px solid #f5a623;">
+        <img src="guayaquil.png" alt="Banco Guayaquil" style="width: 120px; margin-bottom: 10px;">
+        <p><strong>Banco:</strong> Guayaquil</p>
+        <p><strong>Cuenta:</strong> 0987654321</p>
+        <p><strong>A nombre de:</strong> BearBox 23 X-Fit</p>
+      </div>
+    </div>
+
+    <button id="whatsappBtn">Confirmar por WhatsApp</button>
+    <button class="close-btn" onclick="cerrarModal()">Cancelar</button>
+  </div>
+</div>
+
+  <!-- Footer dinámico -->
+  <div id="footer"></div>
+  <script src="footer.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Script personalizado -->
+  <script>
+    function mostrarModal(plan, precio) {
+      const modal = document.getElementById('modal');
+      modal.style.display = 'flex';
+
+      const whatsappBtn = document.getElementById('whatsappBtn');
+      const mensaje = `Hola, estoy interesado en inscribirme al plan *${plan}* de $${precio}. Ya realicé la transferencia.`;
+      const numero = '593987654321'; // Tu número de WhatsApp (sin el +)
+
+      whatsappBtn.onclick = function () {
+        const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+        window.open(url, '_blank');
+      };
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+  </script>
+
+</body>
+
+</html>
