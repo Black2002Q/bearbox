@@ -113,7 +113,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       display: none;
       justify-content: center;
       align-items: center;
@@ -128,6 +128,7 @@
       max-width: 400px;
       border: 2px solid #f5a623;
       color: #fff;
+      width: 90%;
     }
 
     .modal-content h3 {
@@ -168,6 +169,12 @@
       display: block;
       margin-top: 10px;
       color: #f5a623;
+    }
+
+    #mensajeError {
+      margin-top: 10px;
+      color: #f5a623;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -243,13 +250,16 @@
 
       <label for="bancoSelect">Selecciona el banco al que transferiste:</label>
       <select id="bancoSelect">
+        <option value="">Elige tu banco</option>
         <option value="Pichincha">Banco Pichincha</option>
         <option value="Guayaquil">Banco Guayaquil</option>
       </select>
 
+      <div id="mensajeError"></div>
+
       <small>*No olvides adjuntar el comprobante en el chat de WhatsApp.</small>
 
-      <button id="whatsappBtn">Confirmar por WhatsApp</button>
+      <button id="whatsappBtn" disabled>Confirmar por WhatsApp</button>
       <button class="close-btn" onclick="cerrarModal()">Cancelar</button>
     </div>
   </div>
@@ -265,16 +275,32 @@
   <script>
     function mostrarModal(plan, precio) {
       const modal = document.getElementById('modal');
+      const bancoSelect = document.getElementById('bancoSelect');
+      const whatsappBtn = document.getElementById('whatsappBtn');
+      const mensajeError = document.getElementById('mensajeError');
+
       modal.style.display = 'flex';
 
-      const whatsappBtn = document.getElementById('whatsappBtn');
-      const bancoSelect = document.getElementById('bancoSelect');
+      // Resetear estado
+      bancoSelect.selectedIndex = 0;
+      whatsappBtn.disabled = true;
+      mensajeError.textContent = '';
+
+      bancoSelect.addEventListener('change', () => {
+        if (bancoSelect.value === "") {
+          whatsappBtn.disabled = true;
+          mensajeError.textContent = 'Por favor, selecciona un banco para continuar.';
+        } else {
+          whatsappBtn.disabled = false;
+          mensajeError.textContent = '';
+        }
+      });
 
       whatsappBtn.onclick = function () {
         const banco = bancoSelect.value;
-        const mensaje = `Hola, estoy interesado en inscribirme al plan *${plan}* de $${precio}. Realicé la transferencia al banco *${banco}*. Adjunto el comprobante de pago.`;
-        const numero = '593981904095'; // número sin el +
 
+        const mensaje = `Hola, estoy interesado en inscribirme al plan *${plan}* de $${precio}. Realicé la transferencia al banco *${banco}*. Adjunto el comprobante de pago.`;
+        const numero = '593981904095';
         const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
         window.open(url, '_blank');
       };
