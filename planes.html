@@ -156,6 +156,19 @@
       background-color: #999;
       color: #000;
     }
+
+    .modal-content select {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    .modal-content small {
+      display: block;
+      margin-top: 10px;
+      color: #f5a623;
+    }
   </style>
 </head>
 
@@ -206,33 +219,40 @@
   </section>
 
   <!-- Modal flotante -->
-<!-- Modal flotante -->
-<div id="modal" class="modal-overlay">
-  <div class="modal-content">
-    <h3>Datos para el Pago</h3>
+  <div id="modal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Datos para el Pago</h3>
 
-    <div style="display: flex; flex-direction: column; gap: 20px;">
-      <!-- Banco Pichincha -->
-      <div style="background-color: #2a2a2a; padding: 15px; border-radius: 12px; border: 1px solid #f5a623;">
-        <img src="pichincha.jpg" alt="Banco Pichincha" style="width: 120px; margin-bottom: 10px;">
-        <p><strong>Banco:</strong> Pichincha</p>
-        <p><strong>Cuenta:</strong> 1234567890</p>
-        <p><strong>A nombre de:</strong> BearBox 23 X-Fit</p>
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <!-- Banco Pichincha -->
+        <div style="background-color: #2a2a2a; padding: 15px; border-radius: 12px; border: 1px solid #f5a623;">
+          <img src="pichincha.jpg" alt="Banco Pichincha" style="width: 120px; margin-bottom: 10px;">
+          <p><strong>Banco:</strong> Pichincha</p>
+          <p><strong>Cuenta:</strong> 1234567890</p>
+          <p><strong>A nombre de:</strong> BearBox 23 X-Fit</p>
+        </div>
+
+        <!-- Banco Guayaquil -->
+        <div style="background-color: #2a2a2a; padding: 15px; border-radius: 12px; border: 1px solid #f5a623;">
+          <img src="guayaquil.png" alt="Banco Guayaquil" style="width: 120px; margin-bottom: 10px;">
+          <p><strong>Banco:</strong> Guayaquil</p>
+          <p><strong>Cuenta:</strong> 0987654321</p>
+          <p><strong>A nombre de:</strong> BearBox 23 X-Fit</p>
+        </div>
       </div>
 
-      <!-- Banco Guayaquil -->
-      <div style="background-color: #2a2a2a; padding: 15px; border-radius: 12px; border: 1px solid #f5a623;">
-        <img src="guayaquil.png" alt="Banco Guayaquil" style="width: 120px; margin-bottom: 10px;">
-        <p><strong>Banco:</strong> Guayaquil</p>
-        <p><strong>Cuenta:</strong> 0987654321</p>
-        <p><strong>A nombre de:</strong> BearBox 23 X-Fit</p>
-      </div>
+      <label for="bancoSelect">Selecciona el banco al que transferiste:</label>
+      <select id="bancoSelect">
+        <option value="Pichincha">Banco Pichincha</option>
+        <option value="Guayaquil">Banco Guayaquil</option>
+      </select>
+
+      <small>*No olvides adjuntar el comprobante en el chat de WhatsApp.</small>
+
+      <button id="whatsappBtn">Confirmar por WhatsApp</button>
+      <button class="close-btn" onclick="cerrarModal()">Cancelar</button>
     </div>
-
-    <button id="whatsappBtn">Confirmar por WhatsApp</button>
-    <button class="close-btn" onclick="cerrarModal()">Cancelar</button>
   </div>
-</div>
 
   <!-- Footer dinámico -->
   <div id="footer"></div>
@@ -248,10 +268,13 @@
       modal.style.display = 'flex';
 
       const whatsappBtn = document.getElementById('whatsappBtn');
-      const mensaje = `Hola, estoy interesado en inscribirme al plan *${plan}* de $${precio}. Ya realicé la transferencia.`;
-      const numero = '593981904095'; // Tu número de WhatsApp (sin el +)
+      const bancoSelect = document.getElementById('bancoSelect');
 
       whatsappBtn.onclick = function () {
+        const banco = bancoSelect.value;
+        const mensaje = `Hola, estoy interesado en inscribirme al plan *${plan}* de $${precio}. Realicé la transferencia al banco *${banco}*. Adjunto el comprobante de pago.`;
+        const numero = '593981904095'; // número sin el +
+
         const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
         window.open(url, '_blank');
       };
