@@ -141,7 +141,6 @@
 <main class="container mt-5">
   <!-- Horarios -->
   <section class="horarios-cards mt-5">
-
     <div style="margin-bottom: 30px;">
       <label for="fechaSeleccionada" style="font-weight: bold; font-size: 1.1em;">Selecciona día:</label>
       <select id="fechaSeleccionada" class="form-select text-center mx-auto" style="max-width: 300px; margin-top: 10px;"></select>
@@ -220,8 +219,7 @@
     return { hora: hora24, minuto: m };
   }
 
-  function horarioDisponible(horarioStr) {
-    const seleccion = fechaSelect.value;
+  function horarioDisponible(horarioStr, seleccion) {
     if (seleccion === 'mañana') return true;
 
     const ahora = new Date();
@@ -239,13 +237,48 @@
     return fecha.toLocaleDateString('es-EC', opciones);
   }
 
+  function resetSeleccion() {
+    cards.forEach(c => c.classList.remove('seleccionado'));
+    btnWhatsapp.href = "#";
+    btnWhatsapp.style.pointerEvents = 'none';
+    btnWhatsapp.style.opacity = '0.5';
+  }
+
+  // 🔒 Validación mejorada
+  fechaSelect.addEventListener('change', () => {
+    const seleccion = fechaSelect.value;
+    const hoy = new Date().setHours(0, 0, 0, 0);
+    let fechaSeleccionada = new Date();
+
+    if (seleccion === 'mañana') {
+      fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
+    } else if (seleccion === 'hoy') {
+      // válido
+    } else {
+      mostrarAlerta("❗ No puedes cambiar la fecha para elegir un día anterior");
+      resetSeleccion();
+      setDiasEnSelect(); // restaura opciones válidas
+      return;
+    }
+
+    if (fechaSeleccionada.setHours(0, 0, 0, 0) < hoy) {
+      mostrarAlerta("❗ No puedes cambiar la fecha para elegir un día anterior");
+      resetSeleccion();
+      setDiasEnSelect();
+      return;
+    }
+
+    resetSeleccion();
+  });
+
   cards.forEach(card => {
     card.addEventListener('click', () => {
       const horario = card.textContent.trim();
       const seleccion = fechaSelect.value;
 
-      if (!horarioDisponible(horario)) {
+      if (!horarioDisponible(horario, seleccion)) {
         mostrarAlerta('Este horario ya ha pasado para hoy. Puedes reservar para mañana.');
+        resetSeleccion();
         return;
       }
 
