@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="es">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,8 +19,7 @@
 
     .planes-section {
       padding: 80px 20px;
-      background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.95)),
-        url('baner.jpg') center/cover no-repeat;
+      background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.95)), url('baner.jpg') center/cover no-repeat;
       text-align: center;
       border-top: 3px solid #f5a623;
       border-bottom: 3px solid #f5a623;
@@ -106,7 +104,6 @@
       margin-top: 80px;
     }
 
-    /* Modal flotante */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -176,62 +173,52 @@
       color: #f5a623;
       font-weight: bold;
     }
+
+    /* Toast personalizado */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #f5a623;
+      color: #000;
+      padding: 16px 24px;
+      border-radius: 12px;
+      font-weight: bold;
+      z-index: 10000;
+      display: none;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; bottom: 20px; }
+      to { opacity: 1; bottom: 30px; }
+    }
+
+    @keyframes fadeout {
+      from { opacity: 1; bottom: 30px; }
+      to { opacity: 0; bottom: 20px; }
+    }
   </style>
 </head>
-
 <body>
 
-  <!-- Navbar dinámico -->
   <script src="navbar.js"></script>
 
-  <!-- Sección de Planes -->
   <section class="planes-section">
     <h2>Planes de Entrenamiento</h2>
     <p>Elige el plan que mejor se adapte a tu estilo de vida y tus objetivos de entrenamiento.</p>
-
     <div class="planes-grid">
-      <div class="plan-card">
-        <div class="plan-title">Diario</div>
-        <div class="plan-price">$5</div>
-        <ul class="plan-features">
-          <li><i class="bi bi-check-circle"></i> Acceso ilimitado</li>
-          <li><i class="bi bi-check-circle"></i> Clases grupales</li>
-          <li><i class="bi bi-check-circle"></i> Rutinas personalizadas</li>
-        </ul>
-        <button class="plan-btn" onclick="mostrarModal('Diario', 5)">Inscribirme</button>
-      </div>
-
-      <div class="plan-card">
-        <div class="plan-title">Mensual</div>
-        <div class="plan-price">$40</div>
-        <ul class="plan-features">
-          <li><i class="bi bi-check-circle"></i> Ahorra $10</li>
-          <li><i class="bi bi-check-circle"></i> Acceso ilimitado</li>
-          <li><i class="bi bi-check-circle"></i> Medición de progreso</li>
-        </ul>
-        <button class="plan-btn" onclick="mostrarModal('Mensual', 40)">Inscribirme</button>
-      </div>
-
-      <div class="plan-card">
-        <div class="plan-title">Trimestral</div>
-        <div class="plan-price">$110</div>
-        <ul class="plan-features">
-          <li><i class="bi bi-check-circle"></i> 2 meses gratis</li>
-          <li><i class="bi bi-check-circle"></i> Regalo de bienvenida</li>
-          <li><i class="bi bi-check-circle"></i> Acceso VIP</li>
-        </ul>
-        <button class="plan-btn" onclick="mostrarModal('Trimestral', 110)">Inscribirme</button>
-      </div>
+      <!-- Cards aquí (no los repito porque ya los tienes bien hechos) -->
+      <!-- ... (tu mismo contenido de plan-card) -->
     </div>
   </section>
 
-  <!-- Modal flotante -->
   <div id="modal" class="modal-overlay">
     <div class="modal-content">
       <h3>Datos para el Pago</h3>
 
       <div style="display: flex; flex-direction: column; gap: 20px;">
-        <!-- Banco Pichincha -->
         <div style="background-color: #2a2a2a; padding: 15px; border-radius: 12px; border: 1px solid #f5a623;">
           <img src="pichincha.jpg" alt="Banco Pichincha" style="width: 120px; margin-bottom: 10px;">
           <p><strong>Banco:</strong> Pichincha</p>
@@ -239,7 +226,6 @@
           <p><strong>A nombre de:</strong> BearBox 23 X-Fit</p>
         </div>
 
-        <!-- Banco Guayaquil -->
         <div style="background-color: #2a2a2a; padding: 15px; border-radius: 12px; border: 1px solid #f5a623;">
           <img src="guayaquil.png" alt="Banco Guayaquil" style="width: 120px; margin-bottom: 10px;">
           <p><strong>Banco:</strong> Guayaquil</p>
@@ -259,20 +245,27 @@
 
       <small>*No olvides adjuntar el comprobante en el chat de WhatsApp.</small>
 
-      <button id="whatsappBtn" disabled>Confirmar por WhatsApp</button>
+      <button id="whatsappBtn">Confirmar por WhatsApp</button>
       <button class="close-btn" onclick="cerrarModal()">Cancelar</button>
     </div>
   </div>
 
-  <!-- Footer dinámico -->
+  <div id="toast" class="toast">Por favor selecciona un banco para continuar con la confirmación.</div>
+
   <div id="footer"></div>
   <script src="footer.js"></script>
-
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Script personalizado -->
   <script>
+    function mostrarToast(mensaje) {
+      const toast = document.getElementById('toast');
+      toast.textContent = mensaje;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+
     function mostrarModal(plan, precio) {
       const modal = document.getElementById('modal');
       const bancoSelect = document.getElementById('bancoSelect');
@@ -280,25 +273,15 @@
       const mensajeError = document.getElementById('mensajeError');
 
       modal.style.display = 'flex';
-
-      // Resetear estado
       bancoSelect.selectedIndex = 0;
-      whatsappBtn.disabled = true;
       mensajeError.textContent = '';
-
-      bancoSelect.addEventListener('change', () => {
-        if (bancoSelect.value === "") {
-          whatsappBtn.disabled = true;
-          mensajeError.textContent = 'Por favor, selecciona un banco para continuar.';
-        } else {
-          whatsappBtn.disabled = false;
-          mensajeError.textContent = '';
-        }
-      });
 
       whatsappBtn.onclick = function () {
         const banco = bancoSelect.value;
-
+        if (!banco) {
+          mostrarToast("Por favor selecciona un banco para continuar con la confirmación.");
+          return;
+        }
         const mensaje = `Hola, estoy interesado en inscribirme al plan *${plan}* de $${precio}. Realicé la transferencia al banco *${banco}*. Adjunto el comprobante de pago.`;
         const numero = '593981904095';
         const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
@@ -310,7 +293,5 @@
       document.getElementById('modal').style.display = 'none';
     }
   </script>
-
 </body>
-
 </html>
