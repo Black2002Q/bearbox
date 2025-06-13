@@ -102,7 +102,7 @@ footer.innerHTML = `
       <div class="footer-section">
         <h3>Contacto</h3>
         <div class="contact-details">
-          <p><i class="fas fa-phone-alt"></i> +593 ##########</p>
+          <p><i class="fas fa-phone-alt"></i> +593 98 190 4095</p>
           <p><i class="fas fa-map-marker-alt"></i> Ciudadela Italiana, Av. Quito entre Plácido Lainez</p>
           <p><i class="fas fa-clock"></i> Lunes a Viernes: 6:15 AM - 9:15 PM</p>
         </div>
