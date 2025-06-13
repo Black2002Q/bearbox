@@ -51,11 +51,19 @@ document.addEventListener("DOMContentLoaded", function () {
             </a>
           </li>
 
+                        <li class="nav-item">
+            <a class="nav-link ${currentPath.includes("planes.html") ? "active" : ""}" href="planes.html">
+              <i class="bi bi-cash-stack"></i></i>Planes
+            </a>
+          </li>
                     <li class="nav-item">
             <a class="nav-link ${currentPath.includes("contacto.html") ? "active" : ""}" href="contacto.html">
               <i class="bi bi-envelope-fill me-2"></i>Contacto
             </a>
           </li>
+
+          
+      
 
         </ul>
       </div>
