@@ -17,7 +17,6 @@
       color: #fff;
     }
 
-    /* Encabezado tipo galería */
     .intro-section {
       background: linear-gradient(to right, #0f0f0f, #2b2b2b);
       text-align: center;
@@ -37,31 +36,6 @@
       margin: 0;
     }
 
-    /* Info box */
-    .info-box {
-      background-color: #1e1e1e;
-      padding: 25px;
-      margin: 40px auto 0;
-      max-width: 900px;
-      border-left: 5px solid #f5a623;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    }
-
-    .info-box h1 {
-      font-size: 2em;
-      font-weight: 800;
-      color: #f5a623;
-      margin-bottom: 10px;
-    }
-
-    .info-box p {
-      font-size: 1.2em;
-      color: #ffd747;
-      margin: 0;
-    }
-
-    /* Horarios */
     .horarios-cards {
       background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(15, 15, 15, 0.9)),
                   url('baner.jpg') center/cover no-repeat;
@@ -134,19 +108,39 @@
     .btn-confirmar:hover {
       background-color: #1da851;
     }
+
+    /* Alerta centrada elegante */
+    .toast-alert {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background-color: #f5a623;
+      color: #121212;
+      padding: 20px 30px;
+      border-radius: 14px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .toast-alert.visible {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
   </style>
 </head>
 <body>
 
-<!-- Encabezado estilo galería -->
+<!-- Encabezado -->
 <section class="intro-section">
   <h1 class="titulo-galeria">Horarios BearBox23</h1>
   <p class="subtitulo-galeria">Así se vive el entrenamiento de alto rendimiento con nosotros</p>
 </section>
 
 <main class="container mt-5">
-
-  <!-- Info principal -->
 
   <!-- Horarios -->
   <section class="horarios-cards mt-5">
@@ -174,22 +168,23 @@
   </section>
 </main>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Navbar dinámico -->
-<script src="navbar.js"></script>
-
 <!-- Footer dinámico -->
 <main class="container mt-5">
   <div id="footer"></div>
   <script src="footer.js"></script>
 </main>
 
-<!-- Script de selección y WhatsApp con fecha -->
+<!-- Contenedor de alerta flotante -->
+<div id="toast" class="toast-alert"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+<script src="navbar.js"></script>
+
 <script>
   const cards = document.querySelectorAll('.card');
   const btnWhatsapp = document.getElementById('btn-whatsapp');
+  const toast = document.getElementById('toast');
 
   function getFechaActual() {
     const hoy = new Date();
@@ -197,15 +192,54 @@
     return hoy.toLocaleDateString('es-EC', opciones);
   }
 
+  function mostrarAlerta(mensaje) {
+    toast.textContent = mensaje;
+    toast.classList.add('visible');
+    setTimeout(() => {
+      toast.classList.remove('visible');
+    }, 4000);
+  }
+
+  function parseHorario(horarioStr) {
+    const horaInicioStr = horarioStr.split('–')[0].trim();
+    const ampmMatch = horaInicioStr.match(/(AM|PM)$/i);
+    const [h, m] = horaInicioStr.replace(/AM|PM/i, '').trim().split(':').map(Number);
+    const esPM = ampmMatch && ampmMatch[1].toUpperCase() === 'PM';
+
+    let hora24 = h;
+    if (esPM && h < 12) hora24 += 12;
+    if (!esPM && h === 12) hora24 = 0;
+
+    return { hora: hora24, minuto: m };
+  }
+
+  function horarioDisponible(horarioStr) {
+    const ahora = new Date();
+    const { hora, minuto } = parseHorario(horarioStr);
+
+    const inicioClase = new Date();
+    inicioClase.setHours(hora, minuto, 0, 0);
+
+    const finLimite = new Date(inicioClase.getTime() + 45 * 60000); // +45 minutos de tolerancia
+
+    return ahora <= finLimite;
+  }
+
   cards.forEach(card => {
     card.addEventListener('click', () => {
+      const horario = card.textContent.trim();
+
+      if (!horarioDisponible(horario)) {
+        mostrarAlerta('Este horario ya ha pasado. Solo puedes confirmar hasta 15 minutos después del inicio.');
+        return;
+      }
+
       cards.forEach(c => c.classList.remove('seleccionado'));
       card.classList.add('seleccionado');
 
-      const horario = card.textContent.trim();
       const fecha = getFechaActual();
       const mensaje = encodeURIComponent(`Hola BearBox, quiero confirmar mi asistencia al entrenamiento el día ${fecha} en el horario de ${horario}.`);
-      btnWhatsapp.href = `https://wa.me/593999999999?text=${mensaje}`;
+      btnWhatsapp.href = `https://wa.me/593981904095?text=${mensaje}`;
       btnWhatsapp.style.pointerEvents = 'auto';
       btnWhatsapp.style.opacity = '1';
     });
