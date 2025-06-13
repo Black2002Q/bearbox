@@ -1,11 +1,10 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BearBox23 CrossFit</title>
 
-  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <script src="head.js"></script>
 
@@ -109,7 +108,6 @@
       background-color: #1da851;
     }
 
-    /* Alerta centrada elegante */
     .toast-alert {
       position: fixed;
       top: 50%;
@@ -141,9 +139,14 @@
 </section>
 
 <main class="container mt-5">
-
   <!-- Horarios -->
   <section class="horarios-cards mt-5">
+
+    <div style="margin-bottom: 30px;">
+      <label for="fechaSeleccionada" style="font-weight: bold; font-size: 1.1em;">Selecciona día:</label>
+      <select id="fechaSeleccionada" class="form-select text-center mx-auto" style="max-width: 300px; margin-top: 10px;"></select>
+    </div>
+
     <h2>Horarios<br><span>Lunes a Viernes</span></h2>
     <div class="cards" id="horarios">
       <div class="card">6:15 AM – 7:15 AM</div>
@@ -178,26 +181,32 @@
 <div id="toast" class="toast-alert"></div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-<script src="navbar.js"></script>
-
 <script>
   const cards = document.querySelectorAll('.card');
   const btnWhatsapp = document.getElementById('btn-whatsapp');
   const toast = document.getElementById('toast');
+  const fechaSelect = document.getElementById('fechaSeleccionada');
 
-  function getFechaActual() {
+  const dias = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+  function setDiasEnSelect() {
     const hoy = new Date();
-    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return hoy.toLocaleDateString('es-EC', opciones);
+    const mañana = new Date();
+    mañana.setDate(hoy.getDate() + 1);
+
+    const hoyTexto = dias[hoy.getDay()];
+    const mananaTexto = dias[mañana.getDay()];
+
+    fechaSelect.innerHTML = `
+      <option value="hoy">Hoy (${hoyTexto})</option>
+      <option value="mañana">Mañana (${mananaTexto})</option>
+    `;
   }
 
   function mostrarAlerta(mensaje) {
     toast.textContent = mensaje;
     toast.classList.add('visible');
-    setTimeout(() => {
-      toast.classList.remove('visible');
-    }, 4000);
+    setTimeout(() => toast.classList.remove('visible'), 4000);
   }
 
   function parseHorario(horarioStr) {
@@ -205,46 +214,56 @@
     const ampmMatch = horaInicioStr.match(/(AM|PM)$/i);
     const [h, m] = horaInicioStr.replace(/AM|PM/i, '').trim().split(':').map(Number);
     const esPM = ampmMatch && ampmMatch[1].toUpperCase() === 'PM';
-
     let hora24 = h;
     if (esPM && h < 12) hora24 += 12;
     if (!esPM && h === 12) hora24 = 0;
-
     return { hora: hora24, minuto: m };
   }
 
   function horarioDisponible(horarioStr) {
+    const seleccion = fechaSelect.value;
+    if (seleccion === 'mañana') return true;
+
     const ahora = new Date();
     const { hora, minuto } = parseHorario(horarioStr);
-
     const inicioClase = new Date();
     inicioClase.setHours(hora, minuto, 0, 0);
-
-    const finLimite = new Date(inicioClase.getTime() + 45 * 60000); // +45 minutos de tolerancia
-
+    const finLimite = new Date(inicioClase.getTime() + 45 * 60000);
     return ahora <= finLimite;
+  }
+
+  function getFechaTexto(dia) {
+    const fecha = new Date();
+    if (dia === 'mañana') fecha.setDate(fecha.getDate() + 1);
+    const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return fecha.toLocaleDateString('es-EC', opciones);
   }
 
   cards.forEach(card => {
     card.addEventListener('click', () => {
       const horario = card.textContent.trim();
+      const seleccion = fechaSelect.value;
 
       if (!horarioDisponible(horario)) {
-        mostrarAlerta('Este horario ya ha pasado. Solo puedes confirmar hasta 15 minutos después del inicio.');
+        mostrarAlerta('Este horario ya ha pasado para hoy. Puedes reservar para mañana.');
         return;
       }
 
       cards.forEach(c => c.classList.remove('seleccionado'));
       card.classList.add('seleccionado');
 
-      const fecha = getFechaActual();
-      const mensaje = encodeURIComponent(`Hola BearBox, quiero confirmar mi asistencia al entrenamiento el día ${fecha} en el horario de ${horario}.`);
+      const fechaTexto = getFechaTexto(seleccion);
+      const mensaje = encodeURIComponent(`Hola BearBox, quiero confirmar mi asistencia al entrenamiento el día ${fechaTexto} en el horario de ${horario}.`);
       btnWhatsapp.href = `https://wa.me/593981904095?text=${mensaje}`;
       btnWhatsapp.style.pointerEvents = 'auto';
       btnWhatsapp.style.opacity = '1';
     });
   });
+
+  setDiasEnSelect();
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+<script src="navbar.js"></script>
 </body>
 </html>
